@@ -95,6 +95,13 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
+                var existingCamp = await _campRepository.GetCampAsync(campModel.Moniker);
+
+                if (existingCamp != null)
+                {
+                    return BadRequest("Moniker already used");
+                }
+
                 var location = _linkGenerator.GetPathByAction("GetCamp", "Camps",
                     new { moniker = campModel.Moniker });
 
