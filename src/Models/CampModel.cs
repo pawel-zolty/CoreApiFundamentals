@@ -1,7 +1,8 @@
-﻿namespace CoreCodeCamp.Models
-{
-    using System;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CoreCodeCamp.Models
+{
     public class CampModel
     {
         public string Name { get; set; }
@@ -17,5 +18,7 @@
         public string StateProvince { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
+
+        public ICollection<TalkModel> Talks{ get; set; }
     }
 }
