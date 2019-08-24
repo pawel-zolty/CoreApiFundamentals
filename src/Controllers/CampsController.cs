@@ -1,4 +1,6 @@
-﻿using CoreCodeCamp.Data;
+﻿using AutoMapper;
+using CoreCodeCamp.Camps;
+using CoreCodeCamp.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,20 +15,24 @@ namespace CoreCodeCamp.Controllers
     public class CampsController : ControllerBase
     {
         private readonly ICampRepository _campRepository;
+        private readonly IMapper _mapper;
 
-        public CampsController(ICampRepository campRepository)
+        public CampsController(ICampRepository campRepository, IMapper mapper)
         {
             this._campRepository = campRepository;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<Camp[]>> GetCamps()
+        public async Task<ActionResult<CampModel[]>> GetCamps()
         {
             try
             {
                 var results = await _campRepository.GetAllCampsAsync();
 
-                return Ok(results);
+                CampModel[] campModels = _mapper.Map<CampModel[]>(results);
+
+                return Ok(campModels);
             }
             catch (Exception)
             {
