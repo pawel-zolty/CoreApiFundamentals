@@ -18,9 +18,11 @@ namespace CoreCodeCamp.Data
                 .ForMember(campModel => campModel.Country, o => o.MapFrom(camp => camp.Location.Country))
                 .ReverseMap();
 
-            this.CreateMap<Talk, TalkModel>();
+            this.CreateMap<Talk, TalkModel>()
+                .ReverseMap();
 
-            this.CreateMap<Speaker, SpeakerModel>();
+            this.CreateMap<Speaker, SpeakerModel>()
+                .ReverseMap();
         }
     }
 }
