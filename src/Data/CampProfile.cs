@@ -19,6 +19,7 @@ namespace CoreCodeCamp.Data
 
             this.CreateMap<Talk, TalkModel>();
 
+            this.CreateMap<Speaker, SpeakerModel>();
         }
     }
 }
