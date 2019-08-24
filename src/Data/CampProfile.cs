@@ -17,6 +17,8 @@ namespace CoreCodeCamp.Data
                 .ForMember(campModel => campModel.PostalCode, o => o.MapFrom(camp => camp.Location.PostalCode))
                 .ForMember(campModel => campModel.Country, o => o.MapFrom(camp => camp.Location.Country));
 
+            this.CreateMap<CampModel, Camp>();
+
             this.CreateMap<Talk, TalkModel>();
 
             this.CreateMap<Speaker, SpeakerModel>();
