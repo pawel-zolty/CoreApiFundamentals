@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CoreCodeCamp.Camps;
+using CoreCodeCamp.Models;
 
 namespace CoreCodeCamp.Data
 {

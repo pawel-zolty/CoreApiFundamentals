@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CoreCodeCamp.Camps;
+using CoreCodeCamp.Models;
 using CoreCodeCamp.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

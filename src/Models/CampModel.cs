@@ -1,4 +1,4 @@
-﻿namespace CoreCodeCamp.Camps
+﻿namespace CoreCodeCamp.Models
 {
     using System;
 
