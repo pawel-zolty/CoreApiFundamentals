@@ -95,5 +95,39 @@ namespace CoreCodeCamp.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
             }
         }
+
+        [HttpPut("id:int")]
+        public async Task<ActionResult<TalkModel>> Put(string moniker, int id, TalkModel talkModel)
+        {
+            try
+            {
+                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, talkModel.TalkId, true);
+                if (talk == null) return NotFound();
+
+                _mapper.Map(talkModel, talk);
+
+                if(talkModel.Speaker != null)
+                {
+                    var speaker = await _campRepository.GetSpeakerAsync(talkModel.Speaker.SpeakerId);
+                    if(speaker != null)
+                    {
+                        talk.Speaker = speaker;
+                    }
+                }
+
+                if(await _campRepository.SaveChangesAsync())
+                {
+                    return _mapper.Map<TalkModel>(talk);
+                }
+                else
+                {
+                    return BadRequest("Failed to update");
+                }
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+            }
+        }
     }
 }
