@@ -96,12 +96,12 @@ namespace CoreCodeCamp.Controllers
             }
         }
 
-        [HttpPut("id:int")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<TalkModel>> Put(string moniker, int id, TalkModel talkModel)
         {
             try
             {
-                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, talkModel.TalkId, true);
+                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, id, true);
                 if (talk == null) return NotFound();
 
                 _mapper.Map(talkModel, talk);
@@ -124,7 +124,7 @@ namespace CoreCodeCamp.Controllers
                     return BadRequest("Failed to update");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
             }
