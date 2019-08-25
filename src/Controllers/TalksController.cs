@@ -32,9 +32,9 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
-                var results = await _campRepository.GetTalksByMonikerAsync(moniker, true);
+                var talks = await _campRepository.GetTalksByMonikerAsync(moniker, true);
 
-                return _mapper.Map<TalkModel[]>(results);
+                return _mapper.Map<TalkModel[]>(talks);
             }
             catch (Exception e)
             {
@@ -47,9 +47,11 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
-                var results = await _campRepository.GetTalkByMonikerAsync(moniker, id, true);
+                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, id, true);
 
-                return _mapper.Map<TalkModel>(results);
+                if (talk == null) return NotFound();
+
+                return _mapper.Map<TalkModel>(talk);
             }
             catch (Exception e)
             {
@@ -106,16 +108,16 @@ namespace CoreCodeCamp.Controllers
 
                 _mapper.Map(talkModel, talk);
 
-                if(talkModel.Speaker != null)
+                if (talkModel.Speaker != null)
                 {
                     var speaker = await _campRepository.GetSpeakerAsync(talkModel.Speaker.SpeakerId);
-                    if(speaker != null)
+                    if (speaker != null)
                     {
                         talk.Speaker = speaker;
                     }
                 }
 
-                if(await _campRepository.SaveChangesAsync())
+                if (await _campRepository.SaveChangesAsync())
                 {
                     return _mapper.Map<TalkModel>(talk);
                 }
@@ -125,6 +127,29 @@ namespace CoreCodeCamp.Controllers
                 }
             }
             catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<TalkModel>> Delete(string moniker, int id)
+        {
+            try
+            {
+                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, id);
+
+                if (talk == null) return NotFound();
+
+                _campRepository.Delete(talk);
+
+                if(await _campRepository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
             }
