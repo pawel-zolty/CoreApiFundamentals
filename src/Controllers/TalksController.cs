@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CoreCodeCamp.Controllers
 {
-    [Route("api/camps/{moniker}/{controller}")]
+    [Route("api/camps/{moniker}/[controller]")]
     [ApiController]
     public class TalksController : ControllerBase
     {
