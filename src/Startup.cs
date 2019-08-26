@@ -30,7 +30,7 @@ namespace CoreCodeCamp
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 1);
                 opt.ReportApiVersions = true;
-                opt.ApiVersionReader = new QueryStringApiVersionReader();
+                opt.ApiVersionReader = new QueryStringApiVersionReader("version");
             });
 
             services.AddMvc()//opt => opt.EnableEndpointRouting = false
