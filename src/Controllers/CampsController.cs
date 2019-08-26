@@ -160,7 +160,7 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
-                var oldCamp = await _campRepository.GetCampAsync(moniker);
+                var oldCamp = await _campRepository.GetCampAsync(moniker, true);
 
                 if (oldCamp == null)
                 {
