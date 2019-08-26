@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Routing;
 namespace CoreCodeCamp.Controllers
 {
     [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
     [ApiController]
     public class CampsController : ControllerBase
     {
@@ -46,11 +48,36 @@ namespace CoreCodeCamp.Controllers
 
         [HttpGet]
         [Route("{moniker}")]
-        public async Task<ActionResult<CampModel>> GetCamp(string moniker, bool includeTalks = false)
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<CampModel>> GetCamp(string moniker)
         {
             try
             {
-                Camp result = await _campRepository.GetCampAsync(moniker, includeTalks);
+                Camp result = await _campRepository.GetCampAsync(moniker);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                var campModels = _mapper.Map<CampModel>(result);
+
+                return Ok(campModels);
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+            }
+        }
+
+        [HttpGet]
+        [Route("{moniker}")]
+        [MapToApiVersion("1.1")]
+        public async Task<ActionResult<CampModel>> GetCamp11(string moniker)
+        {
+            try
+            {
+                Camp result = await _campRepository.GetCampAsync(moniker, true);
 
                 if (result == null)
                 {
@@ -169,7 +196,8 @@ namespace CoreCodeCamp.Controllers
 
                 _campRepository.Delete(oldCamp);
 
-                if(await _campRepository.SaveChangesAsync())
+
+                if (await _campRepository.SaveChangesAsync())
                 {
                     return Ok();
                 }
