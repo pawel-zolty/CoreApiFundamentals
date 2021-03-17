@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'zolt-ssl-dev'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_cdb19daf3cfc49f693f9dfb0801110e9 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_25d77059766543419b55b312a5349fcc }}
         package: ${{env.DOTNET_ROOT}}/myapp 
