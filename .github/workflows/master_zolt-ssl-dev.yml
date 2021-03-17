@@ -19,7 +19,7 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.301'
+        dotnet-version: '2.1.807'
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'zolt-ssl-dev'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_4ce560c5f51141069a5a1c80229225cc }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b81125ba902c44158e03f5a693f8de2e }}
         package: ${{env.DOTNET_ROOT}}/myapp 
